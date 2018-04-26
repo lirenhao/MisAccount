@@ -1,0 +1,35 @@
+server:
+    port: 9000
+spring:
+    datasource:
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@172.17.0.1:1522:XE
+        username: mpos
+        password: mpos
+    jpa:
+        database: oracle
+        database-platform: org.hibernate.dialect.Oracle10gDialect
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+logging:
+    config: classpath:logback.xml
+file-path: /home/lirenhao/file/
+file-cron: 0 31 16 * * ?
+file-token: 123456
+eacq:
+    file-format: '%s.%s.D%s.txt'
+    org-code: 48
+    org-no: 4487669010
+    date_format: yyyyMMdd
+    charset: UTF-8
+    regex: '.{1}\s+(.{8})\s+(.{6})\s+(.{20})\s+(\d{8})\s+(\d{6})\s+(.{13}).\s+(.{12}).\s+(.{13}).\s+(.{6})\s+(.{4})\s+((.{4})|(.{4})\s+(.{4})\s+(.{12}))'
+other:
+    file-format: '%s_%sUnitedReport.TXT'
+    mer-no: 104481480620844
+    date-format: yyyyMMdd
+    charset: GBK
+    # 截取交易,line-num中表示从第几行开始读,0代表当前行、1代表下一行、2代表下下行
+    marks:
+      - {start-tag: 支付宝交易明细, end-tag: 合计, line-num: 2, tag: alipay}
+      - {start-tag: 微信交易明细, end-tag: 合计, line-num: 2, tag: wechat}
