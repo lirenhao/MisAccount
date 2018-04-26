@@ -1,10 +1,13 @@
 FROM jhouzard/docker-jdk6-mvn3
 
+RUN mkdir -p /opt/ars
+WORKDIR /opt/ars
+
 COPY settings.xml /opt/maven/conf/
+COPY . /opt/ars
 
-ENV PROJECT_HOME=/opt/app
-RUN mkdir -p $PROJECT_HOME
-WORKDIR $PROJECT_HOME
+RUN mvn clean package -Dmaven.test.skip=true \
+     && cp -R ./target/*.jar ./app.jar
 
-# add source
-ADD . $PROJECT_HOME
+EXPOSE 9000
+CMD ["java", "-jar", "/opt/ars/app.jar"]
